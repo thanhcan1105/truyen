@@ -68,7 +68,7 @@ class ChapterScreen extends GetView<ReadStoryController> {
                                   ),
                                 ),
                                 Text(
-                                  'nah%',
+                                  '${controller.batteryLvl.value}%',
                                   style: TextStyle(
                                     fontSize: 11,
                                     color: getForegroundOnBackground(
@@ -84,9 +84,9 @@ class ChapterScreen extends GetView<ReadStoryController> {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 'Chương: tên chương'.toUpperCase(),
-                                style: GoogleFonts.abel(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
+                                style: TextStyle(
+                                  fontFamily: controller.theme.value,
+                                  fontSize: 25,
                                   color: Colors.green,
                                 ),
                               ),
@@ -98,8 +98,9 @@ class ChapterScreen extends GetView<ReadStoryController> {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 controller.chuoi,
-                                style: GoogleFonts.abel(
-                                  fontSize: controller.textSize.value / 5,
+                                style: TextStyle(
+                                  fontFamily: controller.theme.value,
+                                  fontSize: controller.textSize.value,
                                   color: getForegroundOnBackground(
                                     controller.backgroundColor,
                                   ),
@@ -198,22 +199,26 @@ class ChapterScreen extends GetView<ReadStoryController> {
                                   Icon(
                                     Icons.menu,
                                     color: getForegroundOnBackground(
-                                        controller.backgroundColor),
+                                      controller.backgroundColor,
+                                    ),
                                   ),
                                   Icon(
                                     Icons.comment_outlined,
                                     color: getForegroundOnBackground(
-                                        controller.backgroundColor),
+                                      controller.backgroundColor,
+                                    ),
                                   ),
                                   Icon(
                                     Iconsax.book_1,
                                     color: getForegroundOnBackground(
-                                        controller.backgroundColor),
+                                      controller.backgroundColor,
+                                    ),
                                   ),
                                   Icon(
                                     Icons.headphones_outlined,
                                     color: getForegroundOnBackground(
-                                        controller.backgroundColor),
+                                      controller.backgroundColor,
+                                    ),
                                   ),
                                   const SettingTheme(),
                                 ],

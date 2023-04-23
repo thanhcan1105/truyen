@@ -18,6 +18,8 @@ class SettingTheme extends StatelessWidget {
       return luminance > 0.5 ? Colors.black : Colors.white;
     }
 
+    double sizeText = controller.textSize / 6;
+
     // Color color = getForegroundOnBackground(controller.backgroundColor);
 
     return GestureDetector(
@@ -122,7 +124,7 @@ class SettingTheme extends StatelessWidget {
                                           width: 10,
                                         ),
                                         Text(
-                                          '${controller.textSize}%',
+                                          '${controller.numSize}%',
                                           style: TextStyle(
                                             color: getForegroundOnBackground(
                                                 controller.backgroundColor),
@@ -337,24 +339,36 @@ void _showBottomSheetFont(context, controller, Color color) {
                 color: getForegroundOnBackground(controller.backgroundColor),
                 name: 'Mặc định',
                 style: TextStyle(
+                  fontFamily: 'Roboto',
                   color: getForegroundOnBackground(controller.backgroundColor),
                 ),
+                function: () {
+                  controller.theme.value = 'Roboto';
+                },
               ),
               FontItem(
                 color: getForegroundOnBackground(controller.backgroundColor),
-                name: 'Able',
-                style: GoogleFonts.abel(
+                name: 'Lato',
+                style: TextStyle(
+                  fontFamily: 'Lato',
                   color: getForegroundOnBackground(controller.backgroundColor),
                 ),
+                function: () {
+                  controller.theme.value = 'Lato';
+                },
               ),
               FontItem(
                 color: getForegroundOnBackground(controller.backgroundColor),
-                name: 'Syne',
-                style: GoogleFonts.syne(
+                name: 'Bruno',
+                style: TextStyle(
+                  fontFamily: 'Bruno',
                   color: getForegroundOnBackground(controller.backgroundColor),
                 ),
+                function: () {
+                  controller.theme.value = 'Bruno';
+                },
               ),
-              
+
               // ...controller.listFont.map(
               //   (e) => Container(
               //     alignment: Alignment.center,
@@ -384,26 +398,31 @@ class FontItem extends StatelessWidget {
     required this.color,
     required this.name,
     required this.style,
+    required this.function,
     super.key,
   });
 
   String name;
   TextStyle style;
   Color color;
+  Function() function;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: color,
+    return GestureDetector(
+      onTap: function,
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: color,
+          ),
         ),
-      ),
-      child: Text(
-        name,
-        style: style,
+        child: Text(
+          name,
+          style: style,
+        ),
       ),
     );
   }

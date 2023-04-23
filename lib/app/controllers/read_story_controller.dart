@@ -10,24 +10,22 @@ import 'package:intl/intl.dart';
 class ReadStoryController extends GetxController {
   RxBool isHide = true.obs;
   RxBool isLoading = false.obs;
-  RxInt textSize = 100.obs;
+
+  RxInt numSize = 100.obs;
+  RxDouble textSize = (100 / 5).obs;
+
   RxInt numSelected = 1.obs;
   Color backgroundColor = Colors.white;
+  RxString theme = 'Roboto'.obs;
 
   var date = DateTime.now().obs;
   late Timer timer;
-  // var battery = Battery().obs;
   var battery = Battery().obs;
+  RxInt batteryLvl = 0.obs;
 
   String chuoi =
       'Nguyên Sơ đứng trong bóng tối, yên lặng nhìn mọi thứ diễn ra trước mắt.\n“Hoắc Doãn, xin lỗi, tôi không thể trở về cùng anh được.” Cách sơn động mấy chục mét, một người thanh niên chừng hai mươi tuổi nét mặt u buồn nhìn người đàn ông đang ngăn cản dị thú.\n“Quý Minh, tại sao?” Người đàn ông cả người đẫm máu, cổ họng khô khốc tức giận hỏi.\n“Đất nước của chúng ta đã hết hi vọng rồi.” Quý Minh đau buồn nói.\n\n“Lãng phí thời gian tìm cách cứu chữa, còn không bằng tìm con đường khác để đi.”\n“Tìm con đường khác?” Hoắc Doãn dùng hết sức lực của mình, giống như một bức tường đồng vách sắt ngăn chặn trước mặt dị thú, ngăn cản nó tiến lên, “Con đường khác mà anh nói chính là phản bội đất nước của mình?”\n' *
           3;
-
-  final List<Map<String, dynamic>> listFont = [
-    {'id': 1, 'name': 'Mặc định', 'style': TextStyle()},
-    {'id': 2, 'name': 'Abel', 'style': GoogleFonts.abel()},
-    {'id': 3, 'name': 'Syne', 'style': GoogleFonts.syne()},
-  ];
 
   final List<Map<String, dynamic>> listBackground = [
     {'id': 1, 'color': Colors.white},
@@ -37,8 +35,6 @@ class ReadStoryController extends GetxController {
     {'id': 5, 'color': Colors.brown},
   ];
 
-  
-
   @override
   void onInit() async {
     super.onInit();
@@ -46,20 +42,13 @@ class ReadStoryController extends GetxController {
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       date.value = DateTime.now();
     });
-    // print(Battery().batteryLevel);
-    // battery.value.onBatteryStateChanged.listen((BatteryState state) {
-    // Do something with new state
-// });
-
-    
-
+    batteryLvl.value = await battery.value.batteryLevel;
     battery.value.onBatteryStateChanged.listen((BatteryState state) async {
       // Do something with new state
-      int batteryLevel = await battery.value.batteryLevel;
-      print(batteryLevel);
+      batteryLvl.value = await battery.value.batteryLevel;
+      print(batteryLvl.value);
     });
   }
-
 
   showMenu() {
     isLoading.value = true;
@@ -85,18 +74,26 @@ class ReadStoryController extends GetxController {
     isLoading.value = false;
   }
 
+  themeChange(String themeData) {
+    isLoading.value = true;
+    // await Future.delayed(Duration(seconds: 1), () {
+    // });
+    theme.value = themeData;
+    isLoading.value = false;
+  }
+
   incrementSize() {
-    if (textSize.value < 200) {
-      textSize.value = textSize.value + 10;
+    if (numSize.value < 200) {
+      numSize.value = (numSize.value + 10);
+      textSize.value = numSize.value / 5;
     }
-    print(textSize.value);
   }
 
   decrementSize() {
-    if (textSize.value > 50) {
-      textSize.value = textSize.value - 10;
+    if (numSize.value > 50) {
+      numSize.value = numSize.value - 10;
+      textSize.value = numSize.value / 5;
     }
-    print(textSize.value);
   }
 
   @override
