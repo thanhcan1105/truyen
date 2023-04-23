@@ -51,10 +51,11 @@ class ReadStoryController extends GetxController {
     // Do something with new state
 // });
 
-    int batteryLevel = await battery.value.batteryLevel;
+    
 
-    battery.value.onBatteryStateChanged.listen((BatteryState state) {
+    battery.value.onBatteryStateChanged.listen((BatteryState state) async {
       // Do something with new state
+      int batteryLevel = await battery.value.batteryLevel;
       print(batteryLevel);
     });
   }
