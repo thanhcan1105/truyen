@@ -4,16 +4,15 @@ import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-// import 'package:intl/intl.dart';
 
-class ReadStoryController extends GetxController {
+class ExampleController extends GetxController {
   RxBool isHide = true.obs;
   RxBool isLoading = false.obs;
+  double fontSize = 15;
   RxBool isScrollHori = false.obs;
+
   RxInt numSize = 100.obs;
   RxDouble textSize = (100 / 5).obs;
-  double fontSize = 15;
 
   RxInt numSelected = 1.obs;
   Color backgroundColor = Colors.white;
@@ -23,7 +22,9 @@ class ReadStoryController extends GetxController {
   late Timer timer;
   var battery = Battery().obs;
   RxInt batteryLvl = 0.obs;
+
   PageController pageController = PageController();
+
   final String chuoi = """
 Độ ấm từ sau lưng chậm rãi vây quanh, hô hấp nóng bỏng ở bên tai: “Sợ không?”
 
@@ -86,13 +87,10 @@ Sắp xếp cho bà và con gái ở lại cái nơi quỷ quái xa lạ này, c
 “Cậu cả nhà họ Tông cũng là con trai bạn tốt của bà, trông ưa nhìn, dòng dõi nhà họ Tông bà cũng biết đó, lấy bên đó chỉ có hưởng phúc thôi…” Nói đến phía sau, giọng ông ta nhỏ lại.
   """;
 
-  final List<Map<String, dynamic>> listBackground = [
-    {'id': 1, 'color': Colors.white},
-    {'id': 2, 'color': Colors.orangeAccent},
-    {'id': 3, 'color': Colors.purpleAccent},
-    {'id': 4, 'color': Colors.grey},
-    {'id': 5, 'color': Colors.brown},
-  ];
+  Color getForegroundOnBackground(Color backgroundColor) {
+    double luminance = backgroundColor.computeLuminance();
+    return luminance > 0.5 ? Colors.black : Colors.white;
+  }
 
   var pageHeight = 200.0;
   var pageWidth = 200.0;
@@ -116,7 +114,16 @@ Sắp xếp cho bà và con gái ở lại cái nơi quỷ quái xa lạ này, c
       return Container(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          child: Text(paragraph),
+          child: Text(
+            paragraph,
+            style: TextStyle(
+              fontSize: textSize.value,
+              fontFamily: theme.toString(),
+              color: getForegroundOnBackground(
+                backgroundColor,
+              ),
+            ),
+          ),
         ),
       );
     }).toList();
@@ -135,6 +142,27 @@ Sắp xếp cho bà và con gái ở lại cái nơi quỷ quái xa lạ này, c
         ),
         curve: Curves.ease);
   }
+
+  List<Item> listItem = [
+    Item(id: 1, name: 'Item 1'),
+    Item(id: 2, name: 'Item 2'),
+    Item(id: 3, name: 'Item 3'),
+    Item(id: 4, name: 'Item 4'),
+    Item(id: 5, name: 'Item 5'),
+    Item(id: 6, name: 'Item 6'),
+    Item(id: 7, name: 'Item 7'),
+    Item(id: 8, name: 'Item 8'),
+    Item(id: 9, name: 'Item 9'),
+    Item(id: 10, name: 'Item 10'),
+  ];
+
+  final List<Map<String, dynamic>> listBackground = [
+    {'id': 1, 'color': Colors.white},
+    {'id': 2, 'color': Colors.orangeAccent},
+    {'id': 3, 'color': Colors.purpleAccent},
+    {'id': 4, 'color': Colors.grey},
+    {'id': 5, 'color': Colors.brown},
+  ];
 
   @override
   void onInit() async {
@@ -229,4 +257,11 @@ Sắp xếp cho bà và con gái ở lại cái nơi quỷ quái xa lạ này, c
     }
     return paragraphs;
   }
+}
+
+class Item {
+  final int id;
+  final String name;
+
+  Item({required this.id, required this.name});
 }

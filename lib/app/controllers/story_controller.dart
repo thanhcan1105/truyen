@@ -1,24 +1,56 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:truyen/model/chapter_model.dart';
+import 'package:truyen/services/chapter_services.dart';
+import 'package:truyen/services/story_services.dart';
+
+import '../../model/story_model.dart';
 
 class StoryController extends GetxController {
-  List<Item> listItem = [
-    Item( id: 1, name: 'Item 1'),
-    Item( id: 2, name: 'Item 2'),
-    Item( id: 3, name: 'Item 3'),
-    Item( id: 4, name: 'Item 4'),
-    Item( id: 5, name: 'Item 5'),
-    Item( id: 6, name: 'Item 6'),
-    Item( id: 7, name: 'Item 7'),
-    Item( id: 8, name: 'Item 8'),
-    Item( id: 9, name: 'Item 9'),
-    Item( id: 10, name: 'Item 10'),
-  ];
+  RxBool isLoading = false.obs;
+  RxList<StoriesModel> listStory = <StoriesModel>[].obs;
 
-  // List<String> latestItem = listItem.sublist(listItem.length - 5).toList();
+  RxInt idStory = 0.obs;
+  RxList<StoriesModel> storyDetail = <StoriesModel>[].obs;
+  RxList<ChapterModel> listChapter = <ChapterModel>[].obs;
+
+  var data = Get.arguments;
 
   @override
   void onInit() {
     super.onInit();
+    getStory();
+    getChapterByStory();
+  }
+
+  void getStory() async {
+    isLoading.value = true;
+    var response = await StoryServiecs().getListStory(data[1]['cate_slug']);
+    List<StoriesModel> newsList = List.from(
+      response.map((element) => StoriesModel.fromJson(element)).toList(),
+    );
+    listStory.assignAll(newsList);
+    isLoading.value = false;
+  }
+
+  void detailStory(id) {
+    isLoading.value = true;
+    // print(idStory)
+    var data = listStory.where((element) => element.id == id).first;
+    storyDetail.assign(data);
+    isLoading.value = false;
+  }
+
+  void getChapterByStory() async {
+    String slug = 'tam-than-ky';
+    var response = await ChapterServiecs().getListChapter(slug);
+    print(response);
+    List<ChapterModel> newsListChapter = List.from(
+      response.map((element) => ChapterModel.fromJson(element)).toList(),
+    );
+    // listChapter.assignAll(newsList);
+    listChapter.assignAll(newsListChapter);
+    print(listChapter.first.header);
   }
 }
 
@@ -26,5 +58,5 @@ class Item {
   final int id;
   final String name;
 
-  Item({ required this.id, required this.name});
+  Item({required this.id, required this.name});
 }

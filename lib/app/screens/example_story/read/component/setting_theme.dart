@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
-
-import '../../../controllers/chapter_view_controller.dart';
+import 'package:truyen/app/controllers/example_controller.dart';
 
 class SettingTheme extends StatelessWidget {
   const SettingTheme({
@@ -12,7 +11,7 @@ class SettingTheme extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ChapterViewController controller = Get.put(ChapterViewController());
+    ExampleController controller = Get.put(ExampleController());
     Color getForegroundOnBackground(Color backgroundColor) {
       double luminance = backgroundColor.computeLuminance();
       return luminance > 0.5 ? Colors.black : Colors.white;
@@ -216,11 +215,28 @@ class SettingTheme extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   alignment: Alignment.center,
-                                  child: Text(
-                                    'Chuyển trang',
-                                    style: TextStyle(
-                                      color: getForegroundOnBackground(
-                                        controller.backgroundColor,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            height: 200,
+                                            color: getForegroundOnBackground(
+                                              controller.backgroundColor,
+                                            ),
+                                            width: Get.width,
+                                            child: const Center(),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Text(
+                                      'Chuyển trang',
+                                      style: TextStyle(
+                                        color: getForegroundOnBackground(
+                                          controller.backgroundColor,
+                                        ),
                                       ),
                                     ),
                                   ),

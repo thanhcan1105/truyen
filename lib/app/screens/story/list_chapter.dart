@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:truyen/app/controllers/story_controller.dart';
 
 class ListChapter extends GetView {
   const ListChapter({super.key});
 
   @override
   Widget build(BuildContext context) {
+    StoryController controller = Get.put(StoryController());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -32,7 +34,7 @@ class ListChapter extends GetView {
         ),
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
-          itemCount: 15,
+          itemCount: controller.listChapter.length,
           itemBuilder: (context, index) {
             return Container(
               margin: const EdgeInsets.all(5),
@@ -41,7 +43,7 @@ class ListChapter extends GetView {
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Text('${index + 1}. Teen chuongw'),
+              child: Text('${index + 1}. ${controller.listChapter[index].header}'),
             );
           },
         ),

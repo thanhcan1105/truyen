@@ -1,28 +1,30 @@
 import 'package:get/get.dart';
+import 'package:truyen/model/story_model.dart';
+import 'package:truyen/services/category_services.dart';
+
+import '../../model/category_model.dart';
 
 class CategoriesController extends GetxController {
-  late String name;
+  RxBool isLoading = false.obs;
+  RxList<CategoryModel> result = <CategoryModel>[].obs;
 
-  List<CategoryModel> list = [
-    CategoryModel(name: 'Truyện FULL'),
-    CategoryModel(name: 'Truyện mới'),
-    CategoryModel(name: 'Truyện mới cập nhật'),
-    CategoryModel(name: 'Truyện đọc nhiều'),
-    CategoryModel(name: 'Chuyển sinh'),
-    CategoryModel(name: 'Fantasy'),
-    CategoryModel(name: 'Dị năng'),
-  ];
+  RxList<StoriesModel> results = <StoriesModel>[].obs;
+
+  late String name;
 
   @override
   void onInit() {
     super.onInit();
+    getCategory();
   }
-}
 
-class CategoryModel {
-  String name;
-
-  CategoryModel({
-    required this.name,
-  });
+  void getCategory() async {
+    isLoading.value = true;
+    var response = await CategoryServices().getCategory();
+    List<CategoryModel> newsList = List.from(
+      response.map((element) => CategoryModel.fromJson(element)).toList(),
+    );
+    result.assignAll(newsList);
+    isLoading.value = false;
+  }
 }

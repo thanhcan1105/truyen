@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:truyen/app/controllers/categories_cotroller.dart';
 
-import 'detail_category.dart';
+import 'list_story.dart';
 
 class Category extends StatelessWidget {
   const Category({
@@ -14,22 +14,31 @@ class Category extends StatelessWidget {
     CategoriesController controller = Get.put(CategoriesController());
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: GridView.count(
-        childAspectRatio: 3.5,
-        crossAxisCount: 2,
-        mainAxisSpacing: 15,
-        crossAxisSpacing: 15,
-        children: [
-          ...controller.list.map(
-            (e) => CategoryItem(
-              function: () {
-                Get.toNamed('detail_category');
-                controller.name = e.name;
-              },
-              name: e.name,
-            ),
-          )
-        ],
+      child: Obx(
+        () => controller.isLoading.value
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : GridView.count(
+                childAspectRatio: 3.5,
+                crossAxisCount: 2,
+                mainAxisSpacing: 15,
+                crossAxisSpacing: 15,
+                children: [
+                  ...controller.result.map(
+                    (element) => CategoryItem(
+                      function: () {
+                        // controller.getCategory();
+                        Get.toNamed('list_story', arguments: [
+                          {'cate_name': element.name},
+                          {'cate_slug': element.slug},
+                        ]);
+                      },
+                      name: element.name.toString(),
+                    ),
+                  )
+                ],
+              ),
       ),
     );
   }

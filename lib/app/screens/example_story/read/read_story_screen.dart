@@ -3,15 +3,18 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
+import 'package:truyen/app/controllers/example_controller.dart';
 import 'package:truyen/app/controllers/read_story_controller.dart';
 
 import 'component/setting_theme.dart';
 
-class ChapterScreen extends GetView<ReadStoryController> {
-  const ChapterScreen({super.key});
+class ExampleChapterView extends GetView<ReadStoryController> {
+  const ExampleChapterView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    ExampleController controller =
+        Get.put(ExampleController(), permanent: true);
     Color getForegroundOnBackground(Color backgroundColor) {
       double luminance = backgroundColor.computeLuminance();
       return luminance > 0.5 ? Colors.black : Colors.white;
@@ -94,19 +97,28 @@ class ChapterScreen extends GetView<ReadStoryController> {
                             const SizedBox(
                               height: 50,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                controller.chuoi,
-                                style: TextStyle(
-                                  fontFamily: controller.theme.value,
-                                  fontSize: controller.textSize.value,
-                                  color: getForegroundOnBackground(
-                                    controller.backgroundColor,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            Obx(() => controller.isLoading.value
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : controller.isScrollHori.value
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          controller.chuoi,
+                                          style: TextStyle(
+                                            fontFamily: controller.theme.value,
+                                            fontSize: controller.textSize.value,
+                                            color: getForegroundOnBackground(
+                                              controller.backgroundColor,
+                                            ),
+                                          ),
+                                        ))
+                                    : SizedBox(
+                                        height: Get.height,
+                                        width: Get.width,
+                                        child: controller.generatePages(
+                                            controller.chuoi,)))
                           ],
                         ),
                       ),
