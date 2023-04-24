@@ -3,7 +3,7 @@ import 'package:truyen/app/bindings/categories_binding.dart';
 import 'package:truyen/app/bindings/home_binding.dart';
 import 'package:truyen/app/bindings/story_binding.dart';
 import 'package:truyen/app/screens/categories/list_story.dart';
-import 'package:truyen/app/screens/read/component/read_story_screen.dart';
+import 'package:truyen/app/screens/read/read_story_screen.dart';
 import 'package:truyen/app/screens/home/home_screen.dart';
 import 'package:truyen/app/screens/splash/splash_screen.dart';
 import 'package:truyen/app/screens/story/story_screen.dart';

@@ -13,12 +13,14 @@ class StoryController extends GetxController {
   RxInt idStory = 0.obs;
   RxList<StoriesModel> storyDetail = <StoriesModel>[].obs;
   RxList<ChapterModel> listChapter = <ChapterModel>[].obs;
+  RxList<ChapterModel> chapterSort = <ChapterModel>[].obs;
 
-  var data = Get.arguments;
+  var data;
 
   @override
   void onInit() {
     super.onInit();
+    data = Get.arguments;
     getStory();
     getChapterByStory();
   }
@@ -35,28 +37,24 @@ class StoryController extends GetxController {
 
   void detailStory(id) {
     isLoading.value = true;
-    // print(idStory)
     var data = listStory.where((element) => element.id == id).first;
     storyDetail.assign(data);
     isLoading.value = false;
   }
 
   void getChapterByStory() async {
+    // isLoading.value = true;
     String slug = 'tam-than-ky';
     var response = await ChapterServiecs().getListChapter(slug);
-    print(response);
+    // response.removeWhere((key, value) =>
+    //     key == "body" ||
+    //     key == "uploadDate" ||
+    //     key == "deletedAt"); // Sửa lại hàm lọc
     List<ChapterModel> newsListChapter = List.from(
       response.map((element) => ChapterModel.fromJson(element)).toList(),
     );
-    // listChapter.assignAll(newsList);
+
     listChapter.assignAll(newsListChapter);
-    print(listChapter.first.header);
+    // isLoading.value = false;
   }
-}
-
-class Item {
-  final int id;
-  final String name;
-
-  Item({required this.id, required this.name});
 }

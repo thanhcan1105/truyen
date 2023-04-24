@@ -3,18 +3,15 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
-import 'package:truyen/app/controllers/example_controller.dart';
 import 'package:truyen/app/controllers/read_story_controller.dart';
 
 import 'component/setting_theme.dart';
 
-class ExampleChapterView extends GetView<ReadStoryController> {
-  const ExampleChapterView({super.key});
+class ChapterScreen extends GetView<ReadStoryController> {
+  const ChapterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ExampleController controller =
-        Get.put(ExampleController(), permanent: true);
     Color getForegroundOnBackground(Color backgroundColor) {
       double luminance = backgroundColor.computeLuminance();
       return luminance > 0.5 ? Colors.black : Colors.white;
@@ -44,7 +41,7 @@ class ExampleChapterView extends GetView<ReadStoryController> {
                             Row(
                               children: [
                                 Text(
-                                  'Chương: tên chương',
+                                  controller.arguData[0]['chapter_name'],
                                   style: TextStyle(
                                     fontSize: 11,
                                     color: getForegroundOnBackground(
@@ -86,7 +83,9 @@ class ExampleChapterView extends GetView<ReadStoryController> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'Chương: tên chương'.toUpperCase(),
+                                controller.arguData[0]['chapter_name']
+                                    .toUpperCase(),
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: controller.theme.value,
                                   fontSize: 25,
@@ -97,7 +96,7 @@ class ExampleChapterView extends GetView<ReadStoryController> {
                             const SizedBox(
                               height: 50,
                             ),
-                            Obx(() => controller.isLoading.value
+                            Obx(() => controller.isContentLoading.value
                                 ? const Center(
                                     child: CircularProgressIndicator(),
                                   )
@@ -105,7 +104,7 @@ class ExampleChapterView extends GetView<ReadStoryController> {
                                     ? Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          controller.chuoi,
+                                          controller.chapterData.value,
                                           style: TextStyle(
                                             fontFamily: controller.theme.value,
                                             fontSize: controller.textSize.value,
@@ -118,7 +117,22 @@ class ExampleChapterView extends GetView<ReadStoryController> {
                                         height: Get.height,
                                         width: Get.width,
                                         child: controller.generatePages(
-                                            controller.chuoi,)))
+                                            controller.chapterData.value))),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            // Container(
+                            //   width: Get.width,
+                            //   alignment: Alignment.center,
+                            //   child: const Text(
+                            //     '------oOo------',
+                            //     style: TextStyle(
+                            //         color: Colors.green, fontFamily: 'Bruno'),
+                            //   ),
+                            // ),
+                            // const SizedBox(
+                            //   height: 30,
+                            // ),
                           ],
                         ),
                       ),
@@ -169,7 +183,7 @@ class ExampleChapterView extends GetView<ReadStoryController> {
                                       ],
                                     ),
                                     Text(
-                                      'Tên truyện' * 5,
+                                      controller.arguData[0]['story_name'],
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.abel(
                                         fontSize: 24,
@@ -208,10 +222,13 @@ class ExampleChapterView extends GetView<ReadStoryController> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Icon(
-                                    Icons.menu,
-                                    color: getForegroundOnBackground(
-                                      controller.backgroundColor,
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Icon(
+                                      Icons.menu,
+                                      color: getForegroundOnBackground(
+                                        controller.backgroundColor,
+                                      ),
                                     ),
                                   ),
                                   Icon(

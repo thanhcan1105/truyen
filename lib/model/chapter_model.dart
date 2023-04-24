@@ -1,28 +1,36 @@
-import 'package:truyen/model/story_model.dart';
-
 class ChapterModel {
   int? id;
   String? header;
   String? slug;
+  List<String>? body;
   int? viewCount;
+  String? uploadDate;
   String? updatedDate;
-  StoriesModel? story;
+  String? deletedAt;
+  // Story? story;
 
-  ChapterModel(
-      {this.id,
-      this.header,
-      this.slug,
-      this.viewCount,
-      this.updatedDate,
-      this.story});
+  ChapterModel({
+    this.id,
+    this.header,
+    this.slug,
+    this.body,
+    this.viewCount,
+    this.uploadDate,
+    this.updatedDate,
+    this.deletedAt,
+    // this.story,
+  });
 
   ChapterModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     header = json['header'];
     slug = json['slug'];
+    body = json['body'] != null ? List<String>.from(json['body']) : [];
     viewCount = json['viewCount'];
-    updatedDate = json['updatedDate'];
-    story = json['story'] != null ? new StoriesModel.fromJson(json['story']) : null;
+    uploadDate = json['uploadDate'] ?? '';
+    updatedDate = json['updatedDate'] ?? '';
+    deletedAt = json['deletedAt'] ?? '';
+    // story = json['story'] != null ? new Story.fromJson(json['story']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -30,12 +38,14 @@ class ChapterModel {
     data['id'] = this.id;
     data['header'] = this.header;
     data['slug'] = this.slug;
+    data['body'] = this.body;
     data['viewCount'] = this.viewCount;
+    data['uploadDate'] = this.uploadDate;
     data['updatedDate'] = this.updatedDate;
-    if (this.story != null) {
-      data['story'] = this.story!.toJson();
-    }
+    data['deletedAt'] = this.deletedAt;
+    // if (this.story != null) {
+    //   data['story'] = this.story!.toJson();
+    // }
     return data;
   }
 }
-

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:truyen/app/controllers/home_controller.dart';
-import 'package:truyen/app/screens/example_story/example_story.dart';
 
 import '../categories/categories.dart';
 
@@ -11,7 +10,7 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -26,14 +25,20 @@ class HomeScreen extends GetView<HomeController> {
             labelColor: Colors.blue,
             tabs: [
               Tab(text: 'Danh mục'),
-              Tab(text: 'Example'),
+              Tab(text: 'Truyện mới'),
+              Tab(text: 'Truyện FULL'),
             ],
           ),
         ),
         body: const TabBarView(
           children: [
             Category(),
-            ExampleStory(),
+            Center(
+              child: Text('Truyện mới'),
+            ),
+            Center(
+              child: Text('Truyện full'),
+            ),
           ],
         ),
       ),

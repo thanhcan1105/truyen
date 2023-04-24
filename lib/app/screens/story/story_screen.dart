@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:truyen/app/controllers/story_controller.dart';
 import 'package:truyen/app/screens/story/list_chapter.dart';
 
+import '../../controllers/read_story_controller.dart';
+
 class StoryScreen extends GetView<StoryController> {
   const StoryScreen({super.key});
 
@@ -74,8 +76,8 @@ class StoryScreen extends GetView<StoryController> {
                                   ),
                                   InfoItem(
                                     llable: 'Số chương',
-                                    rlable: 'nah',
-                                    // ${controller.storyDetail.first.chapters!.length}
+                                    rlable: controller.listChapter.length
+                                        .toString(),
                                   ),
                                   InfoItem(
                                     llable: 'Ngày đăng',
@@ -119,8 +121,7 @@ class StoryScreen extends GetView<StoryController> {
                                     Icons.star,
                                     color: Colors.blue,
                                   ),
-                                  onRatingUpdate: (rating) {
-                                  },
+                                  onRatingUpdate: (rating) {},
                                 ),
                                 const Spacer(),
                                 MaterialButton(
@@ -226,17 +227,27 @@ class StoryScreen extends GetView<StoryController> {
                             const SizedBox(
                               height: 10,
                             ),
-                            // ...controller.listChapter
-                            //     .sublist(controller.listChapter.length - 5)
-                            //     .map(
-                            //       (e) => Item(
-                            //         widget: Text(
-                            //           e.header.toString(),
-                            //           maxLines: 1,
-                            //           overflow: TextOverflow.ellipsis,
-                            //         ),
-                            //       ),
-                            //     ),
+                            ...controller.listChapter.sublist(0, 5).map(
+                                  (e) => GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed('chapter', arguments: [
+                                        {
+                                          'story_name': controller
+                                              .storyDetail.first.title,
+                                          'chapter_name': e.header,
+                                          'chapter_slug': e.slug,
+                                        }
+                                      ]);
+                                    },
+                                    child: Item(
+                                      widget: Text(
+                                        e.header.toString(),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                             //Newest comment
                             Row(
                               children: const [
@@ -285,8 +296,14 @@ class StoryScreen extends GetView<StoryController> {
                       ),
                       MaterialButton(
                         onPressed: () {
-                          // Get.toNamed('chapter');
-                          controller.getChapterByStory();
+                          Get.toNamed('chapter', arguments: [
+                            {
+                              'story_name': controller.storyDetail.first.title,
+                              'chapter_name':
+                                  controller.listChapter.first.header,
+                              'chapter_slug': controller.listChapter.first.slug,
+                            }
+                          ]);
                         },
                         color: Colors.blue,
                         minWidth: Get.width * 0.5,

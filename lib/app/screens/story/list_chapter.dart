@@ -36,14 +36,26 @@ class ListChapter extends GetView {
           physics: const BouncingScrollPhysics(),
           itemCount: controller.listChapter.length,
           itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.all(5),
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(10),
+            return GestureDetector(
+              onTap: () {
+                Get.toNamed('chapter', arguments: [
+                  {
+                    'story_name': controller.storyDetail.first.title,
+                    'chapter_name': controller.listChapter[controller.listChapter.length - 1 - index].header,
+                    'chapter_slug': controller.listChapter[controller.listChapter.length - 1 - index].slug,
+                  }
+                ]);
+              },
+              child: Container(
+                margin: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                    '${index + 1}. ${controller.listChapter[controller.listChapter.length - 1 - index].header}'),
               ),
-              child: Text('${index + 1}. ${controller.listChapter[index].header}'),
             );
           },
         ),

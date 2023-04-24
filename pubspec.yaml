@@ -46,6 +46,7 @@ dependencies:
   battery_plus: ^3.0.4
   http: ^0.13.4
   http_parser: ^4.0.1
+  html: ^0.15.2
 
 dev_dependencies:
   flutter_test:

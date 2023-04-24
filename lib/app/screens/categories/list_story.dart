@@ -48,6 +48,7 @@ class ListStory extends GetView<StoryController> {
                               Get.toNamed('story');
                             },
                             child: Container(
+                              constraints: const BoxConstraints(minHeight: 100),
                               margin: const EdgeInsets.only(bottom: 10),
                               width: Get.width,
                               decoration: BoxDecoration(

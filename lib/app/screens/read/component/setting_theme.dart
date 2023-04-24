@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
-
-import '../../../controllers/chapter_view_controller.dart';
+import 'package:truyen/app/controllers/read_story_controller.dart';
 
 class SettingTheme extends StatelessWidget {
   const SettingTheme({
@@ -12,7 +11,7 @@ class SettingTheme extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ChapterViewController controller = Get.put(ChapterViewController());
+    ReadStoryController controller = Get.put(ReadStoryController());
     Color getForegroundOnBackground(Color backgroundColor) {
       double luminance = backgroundColor.computeLuminance();
       return luminance > 0.5 ? Colors.black : Colors.white;
@@ -166,10 +165,66 @@ class SettingTheme extends StatelessWidget {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            _showBottomSheetFont(
+                                            _showBottomSheetStyle(
                                               context,
                                               controller,
                                               controller.backgroundColor,
+                                              [
+                                                FontItem(
+                                                  color:
+                                                      getForegroundOnBackground(
+                                                          controller
+                                                              .backgroundColor),
+                                                  name: 'Mặc định',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    color:
+                                                        getForegroundOnBackground(
+                                                            controller
+                                                                .backgroundColor),
+                                                  ),
+                                                  function: () {
+                                                    controller.theme.value =
+                                                        'Roboto';
+                                                  },
+                                                ),
+                                                FontItem(
+                                                  color:
+                                                      getForegroundOnBackground(
+                                                          controller
+                                                              .backgroundColor),
+                                                  name: 'Lato',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Lato',
+                                                    color:
+                                                        getForegroundOnBackground(
+                                                            controller
+                                                                .backgroundColor),
+                                                  ),
+                                                  function: () {
+                                                    controller.theme.value =
+                                                        'Lato';
+                                                  },
+                                                ),
+                                                FontItem(
+                                                  color:
+                                                      getForegroundOnBackground(
+                                                          controller
+                                                              .backgroundColor),
+                                                  name: 'Bruno',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Bruno',
+                                                    color:
+                                                        getForegroundOnBackground(
+                                                            controller
+                                                                .backgroundColor),
+                                                  ),
+                                                  function: () {
+                                                    controller.theme.value =
+                                                        'Bruno';
+                                                  },
+                                                ),
+                                              ],
                                             );
                                           },
                                           child: Container(
@@ -216,11 +271,102 @@ class SettingTheme extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   alignment: Alignment.center,
-                                  child: Text(
-                                    'Chuyển trang',
-                                    style: TextStyle(
-                                      color: getForegroundOnBackground(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      _showBottomSheetStyle(
+                                        context,
+                                        controller,
                                         controller.backgroundColor,
+                                        [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Get.close(2);
+                                              controller.getChapterData();
+                                              controller.isScrollHori.value =
+                                                  true;
+                                            },
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                color: controller
+                                                        .isScrollHori.value
+                                                    ? getForegroundOnBackground(
+                                                        controller
+                                                            .backgroundColor)
+                                                    : null,
+                                                border: Border.all(
+                                                  color:
+                                                      getForegroundOnBackground(
+                                                    controller.backgroundColor,
+                                                  ),
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: Text(
+                                                'Cuộn dọc',
+                                                style: TextStyle(
+                                                    color: controller
+                                                            .isScrollHori.value
+                                                        ? controller
+                                                            .backgroundColor
+                                                        : getForegroundOnBackground(
+                                                            controller
+                                                                .backgroundColor,
+                                                          ),
+                                                    fontSize: 16),
+                                              ),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              Get.close(2);
+                                              controller.getChapterData();
+                                              controller.isScrollHori.value =
+                                                  false;
+                                            },
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                color: controller
+                                                        .isScrollHori.value
+                                                    ? null
+                                                    : getForegroundOnBackground(
+                                                        controller
+                                                            .backgroundColor),
+                                                border: Border.all(
+                                                  color:
+                                                      getForegroundOnBackground(
+                                                    controller.backgroundColor,
+                                                  ),
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: Text(
+                                                'Cuộn ngang',
+                                                style: TextStyle(
+                                                    color: controller
+                                                            .isScrollHori.value
+                                                        ? getForegroundOnBackground(
+                                                            controller
+                                                                .backgroundColor,
+                                                          )
+                                                        : controller
+                                                            .backgroundColor,
+                                                    fontSize: 16),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    },
+                                    child: Text(
+                                      'Chuyển trang',
+                                      style: TextStyle(
+                                        color: getForegroundOnBackground(
+                                          controller.backgroundColor,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -314,7 +460,8 @@ class Background extends StatelessWidget {
   }
 }
 
-void _showBottomSheetFont(context, controller, Color color) {
+void _showBottomSheetStyle(
+    context, controller, Color color, List<Widget> list) {
   Color getForegroundOnBackground(Color backgroundColor) {
     double luminance = backgroundColor.computeLuminance();
     return luminance > 0.5 ? Colors.black : Colors.white;
@@ -334,58 +481,7 @@ void _showBottomSheetFont(context, controller, Color color) {
             crossAxisCount: 2,
             mainAxisSpacing: 15,
             crossAxisSpacing: 15,
-            children: [
-              FontItem(
-                color: getForegroundOnBackground(controller.backgroundColor),
-                name: 'Mặc định',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  color: getForegroundOnBackground(controller.backgroundColor),
-                ),
-                function: () {
-                  controller.theme.value = 'Roboto';
-                },
-              ),
-              FontItem(
-                color: getForegroundOnBackground(controller.backgroundColor),
-                name: 'Lato',
-                style: TextStyle(
-                  fontFamily: 'Lato',
-                  color: getForegroundOnBackground(controller.backgroundColor),
-                ),
-                function: () {
-                  controller.theme.value = 'Lato';
-                },
-              ),
-              FontItem(
-                color: getForegroundOnBackground(controller.backgroundColor),
-                name: 'Bruno',
-                style: TextStyle(
-                  fontFamily: 'Bruno',
-                  color: getForegroundOnBackground(controller.backgroundColor),
-                ),
-                function: () {
-                  controller.theme.value = 'Bruno';
-                },
-              ),
-
-              // ...controller.listFont.map(
-              //   (e) => Container(
-              //     alignment: Alignment.center,
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(10),
-              //       border: Border.all(
-              //         color:
-              //             getForegroundOnBackground(controller.backgroundColor),
-              //       ),
-              //     ),
-              //     child: Text(
-              //       e['name'],
-              //       style: e['style'],
-              //     ),
-              //   ),
-              // )
-            ],
+            children: list,
           ),
         ),
       );
