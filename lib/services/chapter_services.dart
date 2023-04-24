@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../constance.dart';
+import '../model/chapter_model.dart';
 
 class ChapterServiecs {
   Future getListChapter(slug) async {
@@ -10,7 +11,10 @@ class ChapterServiecs {
     );
     var bodyResponse = jsonDecode(res.body);
     if (res.statusCode == 200) {
-      return bodyResponse;
+      List<ChapterModel> newsListChapter = List.from(
+        bodyResponse.map((element) => ChapterModel.fromJson(element)).toList(),
+      );
+      return newsListChapter;
     } else {
       return null;
     }
@@ -22,7 +26,7 @@ class ChapterServiecs {
     );
     var bodyResponse = jsonDecode(res.body);
     if (res.statusCode == 200) {
-      return bodyResponse;
+      return bodyResponse['body'];
     } else {
       return null;
     }

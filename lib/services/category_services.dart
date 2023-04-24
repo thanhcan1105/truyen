@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../constance.dart';
+import '../model/category_model.dart';
 
 class CategoryServices {
   Future getCategory() async {
@@ -10,7 +11,10 @@ class CategoryServices {
     );
     var bodyResponse = jsonDecode(res.body);
     if (res.statusCode == 200) {
-      return bodyResponse;
+      List<CategoryModel> newsList = List.from(
+        bodyResponse.map((element) => CategoryModel.fromJson(element)).toList(),
+      );
+      return newsList;
     } else {
       return null;
     }

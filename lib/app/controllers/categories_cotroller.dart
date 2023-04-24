@@ -21,10 +21,7 @@ class CategoriesController extends GetxController {
   void getCategory() async {
     isLoading.value = true;
     var response = await CategoryServices().getCategory();
-    List<CategoryModel> newsList = List.from(
-      response.map((element) => CategoryModel.fromJson(element)).toList(),
-    );
-    result.assignAll(newsList);
+    result.assignAll(response);
     isLoading.value = false;
   }
 }

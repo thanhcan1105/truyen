@@ -112,10 +112,7 @@ class ReadStoryController extends GetxController {
     // String data = 'tam-than-ky/chuong-138';
     var response =
         await ChapterServiecs().readStory(arguData[0]['chapter_slug']);
-    // List<ChapterModel> newsList = List.from(
-    //   response.map((element) => ChapterModel.fromJson(element)).toList(),
-    // );
-    var data = response['body'].toString().replaceAll(RegExp(r"[\[\]]"), "");
+    var data = response.toString().replaceAll(RegExp(r"[\[\]]"), "");
     chapterData.value = parse(data).documentElement!.text;
     chapterData.value.replaceAll('.', '.\\n');
 

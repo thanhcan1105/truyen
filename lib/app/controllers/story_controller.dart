@@ -28,10 +28,8 @@ class StoryController extends GetxController {
   void getStory() async {
     isLoading.value = true;
     var response = await StoryServiecs().getListStory(data[1]['cate_slug']);
-    List<StoriesModel> newsList = List.from(
-      response.map((element) => StoriesModel.fromJson(element)).toList(),
-    );
-    listStory.assignAll(newsList);
+
+    listStory.assignAll(response);
     isLoading.value = false;
   }
 
@@ -46,15 +44,8 @@ class StoryController extends GetxController {
     // isLoading.value = true;
     String slug = 'tam-than-ky';
     var response = await ChapterServiecs().getListChapter(slug);
-    // response.removeWhere((key, value) =>
-    //     key == "body" ||
-    //     key == "uploadDate" ||
-    //     key == "deletedAt"); // Sửa lại hàm lọc
-    List<ChapterModel> newsListChapter = List.from(
-      response.map((element) => ChapterModel.fromJson(element)).toList(),
-    );
 
-    listChapter.assignAll(newsListChapter);
+    listChapter.assignAll(response);
     // isLoading.value = false;
   }
 }
