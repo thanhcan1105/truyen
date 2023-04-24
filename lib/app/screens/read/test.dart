@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:truyen/app/controllers/chapter_view_controller.dart';
+import 'package:truyen/app/controllers/read_story_controller.dart';
 
 class MyPaginatedText extends StatelessWidget {
   final PageController _controller = PageController(initialPage: 0);
-  ChapterViewController controller = Get.put(ChapterViewController());
+  ReadStoryController controller = Get.put((ReadStoryController()));
 
   @override
   Widget build(BuildContext context) {
